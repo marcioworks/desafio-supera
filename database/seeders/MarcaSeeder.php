@@ -15,7 +15,6 @@ class MarcaSeeder extends Seeder
      */
     public function run()
     {
-
         DB::table('marcas')->insert([
             'nome' => 'Fiat',
         ]);

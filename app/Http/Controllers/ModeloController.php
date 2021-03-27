@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Modelo;
+use App\Models\Marca;
 use Illuminate\Http\Request;
 
 class ModeloController extends Controller
 {
+    public function __construct(Modelo $model)
+    {
+        $this->model = $model;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,10 @@ class ModeloController extends Controller
      */
     public function index()
     {
-        //
+        $marcas = Marca::all();
+        // $modelos = $modelos->with('marca')->get();
+        return view('modelo.create', compact('marcas'));
+        //    return response()->json($marcas);
     }
 
     /**
@@ -35,7 +43,25 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'marca_id' => 'required',
+            'nome' => 'required',
+
+        ];
+        $feedback=[
+            'required'=> 'o campo :attribute é obrigatório',
+        ];
+        $request->validate($rules,$feedback);
+        $modelo = new Modelo();
+        $modelo->marca_id = $request->marca_id;
+        $modelo->nome = $request->nome;
+        $modelo->numero_portas = $request->numero_portas;
+        $modelo->lugares = $request->lugares;
+        $modelo->air_bag = $request->air_bag;
+        $modelo->abs = $request->abs;
+        // dd($request->all());
+        $modelo->save();
+        return redirect('/home')->with('success', 'Post created successfully!');
     }
 
     /**

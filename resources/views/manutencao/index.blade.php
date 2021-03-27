@@ -10,8 +10,9 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Usuario</th>
-                            <th>data</th>
+                            <th>Carro</th>
+                            <th>Placa</th>
+                            <th>Data da Manutencao</th>
                             <th colspan="2">Action</th>
                         </tr>
                     </thead>
@@ -19,12 +20,13 @@
                         @foreach($manutencoes as $manutencao)
                         <tr>
                             <td>{{ $manutencao->id }}</td>
-                            <td>{{ $manutencao->user_id }}</td>
-                            <td>{{ date('Y-m-d', strtotime($manutencao->data_manutencao)) }}</td>
+                            <td>{{ $manutencao->carro['modelo']['nome'] }}</td>
+                            <td>{{ $manutencao->carro['placa'] }}</td>
+                            <td>{{ date('d-m-Y', strtotime($manutencao->data_manutencao)) }}</td>
                             <td>
-                            <a href="posts/{{$manutencao->id}}" class="btn btn-primary">Show</a>
-                            <a href="posts/{{$manutencao->id}}/edit" class="btn btn-primary">Edit</a>
-                            <form action="posts/{{$manutencao->id}}" method="post" class="d-inline">
+                            <a href="manutencao/{{$manutencao->id}}" class="btn btn-primary">Show</a>
+                            <a href="manutencao/{{$manutencao->id}}/edit" class="btn btn-primary">Edit</a>
+                            <form action="manutencao/{{$manutencao->id}}" method="post" class="d-inline">
                                 {{ csrf_field() }}
                                 @method('DELETE')
                                 <button class="btn btn-danger" type="submit">Delete</button>

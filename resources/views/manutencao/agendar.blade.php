@@ -15,7 +15,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">{{ __('Create Car') }}</div>
+                    <div class="card-header">{{ __('Agendar Manutenção') }}</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -24,40 +24,32 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('carro') }}" method="post">
+                        <form action="{{ route('marca') }}" method="post">
                             @csrf
+
                             <div class="form-group">
                                 <label for="">Id Usuario</label>
                                 <input type="number" name="user_id" value="{{ Auth::user()->id }}" class="form-control"
                                     readonly>
                             </div>
+
                             <div class="form-group">
                                 <label for="cars">Modelo</label>
-                                <select  class="custom-select" name="modelo_id">
-                                    @foreach ($modelos as $modelo)
-                                        <option name="modelo_id" value="{{ $modelo->id }}" class="form-control">
-                                            {{ $modelo->nome }}
+                                <select  class="custom-select" name="carro_id">
+                                    @foreach ($carros as $carro)
+                                        <option name="carro_id" value="{{ $carro->id }}" class="form-control">
+                                            {{$carro->modelo['nome'].', placa '. $carro->placa }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="">Placa</label>
-                                <input name="placa" class="form-control" />
+                                <label for="">Fazer Manutenção em</label>
+                                <input type="date" name="data_manutencao" class="form-control">
                             </div>
 
-                            <div class="form-group">
-                                <label for="">Cor</label>
-                                <input type="text" name="cor" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Km</label>
-                                <input type="number" name="km" class="form-control">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Gravar</button>
                         </form>
 
                     </div>

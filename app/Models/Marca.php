@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Marca extends Model
 {
     use HasFactory;
+
+    public function modelos()
+    {
+        return $this->hasMany('App\Models\Modelo');
+    }
 }

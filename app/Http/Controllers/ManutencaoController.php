@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+
+use Carbon\Carbon;
 use App\Models\Manutencao;
+use App\Models\Carro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManutencaoController extends Controller
 {
+
+    public function __construct(Manutencao $model)
+    {
+        $this->model = $model;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $dataLimite = Carbon::today();
+        $dataLimite->addDays(7);
+        $manutencoes = $this->model->with(['carro', 'carro.modelo'])->where('data_manutencao', '<=', $dataLimite)->get();
+        // $manutencoes = Manutencao::all();
+        return view('manutencao.index', compact('manutencoes'));
+        // return response()->json($manutencoes);
     }
 
     /**
@@ -22,9 +36,14 @@ class ManutencaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function agendar()
     {
-        //
+        $carros = new Carro();
+        $user = Auth::user()->id;
+        // dd($user);
+        $carros = $carros->with('modelo')->where('user_id', '=', $user)->get();
+        return view('manutencao.agendar', compact('carros'));
+        //  return response()->json($carros);
     }
 
     /**
@@ -35,7 +54,22 @@ class ManutencaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $rules = [
+            'carro_id' => 'required',
+            'data_manutencao' => 'required',
+        ];
+        $feedback = [
+            'required' => 'o campo :attribute é obrigatório',
+        ];
+        $request->validate($rules, $feedback);
+        $carro = new Manutencao();
+        $carro->user_id = $request->user_id;
+        $carro->carro_id = $request->carro_id;
+        $carro->data_manutencao = $request->data_manutencao;
+        // dd($request->all());
+        $carro->save();
+        return redirect('/home')->with('success', 'Post created successfully!');
     }
 
     /**

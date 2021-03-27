@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
+
+    public function __construct(Marca $model)
+    {
+        $this->model = $model;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        //
+        return view('marca.create');
     }
 
     /**
@@ -35,7 +40,17 @@ class MarcaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nome'=>'required'
+        ];
+        $feedback=[
+            'required'=>'o campo :attribute é obirgatório'
+        ];
+        $request->validate($rules,$feedback);
+        $marca = new Marca();
+        $marca->nome = $request->nome;
+        $marca->save();
+        return redirect('/home')->with('success', 'Post created successfully!');
     }
 
     /**
