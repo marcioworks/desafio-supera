@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('carro','App\Http\Controllers\CarroController');
+Route::apiResource('manutencao','App\Http\Controllers\ManutencaoController');
+Route::apiResource('marca','App\Http\Controllers\MarcaController')->name('create','create-car');
+Route::apiResource('modelo','App\Http\Controllers\ModeloController');

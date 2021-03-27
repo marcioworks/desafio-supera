@@ -15,6 +15,7 @@ class CreateCarrosTable extends Migration
 {
     Schema::create('carros', function (Blueprint $table) {
         $table->id();
+        $table->unsignedBigInteger('user_id');
         $table->unsignedBigInteger('modelo_id');
         $table->string('placa', 7)->unique();
         $table->string('cor');
@@ -22,6 +23,7 @@ class CreateCarrosTable extends Migration
         $table->timestamps();
 
         //foreign key (constraints)
+        $table->foreign('user_id')->references('id')->on('users');
         $table->foreign('modelo_id')->references('id')->on('modelos');
     });
 }

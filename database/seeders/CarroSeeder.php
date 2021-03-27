@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CarroSeeder extends Seeder
 {
@@ -13,6 +14,12 @@ class CarroSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('carros')->insert([
+            'user_id' => 1,
+            'modelo_id' => 1,
+            'placa'=> 'xyz1234',
+            'cor' => 'Branco',
+            'km' => 23000,
+        ]);
     }
 }
