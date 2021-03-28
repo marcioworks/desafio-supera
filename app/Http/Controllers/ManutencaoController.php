@@ -81,7 +81,7 @@ class ManutencaoController extends Controller
         $carro->data_manutencao = $request->data_manutencao;
         // dd($request->all());
         $carro->save();
-        return redirect('/home')->with('success', 'Post created successfully!');
+        return redirect('/home')->with('success', 'Agendamento criado com sucesso!');
     }
 
     /**
@@ -104,9 +104,11 @@ class ManutencaoController extends Controller
      * @param  \App\Models\Manutencao  $manutencao
      * @return \Illuminate\Http\Response
      */
-    public function edit(Manutencao $manutencao)
+    public function edit($id)
     {
-        //
+        $manutencao = $this->model->with(['carro', 'carro.modelo'])->where('id','=',$id)->get();
+        // dd($manutencao);
+        return view('manutencao.edit', compact('manutencao'));
     }
 
     /**
@@ -116,9 +118,19 @@ class ManutencaoController extends Controller
      * @param  \App\Models\Manutencao  $manutencao
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Manutencao $manutencao)
+    public function update(Request $request,  $id)
     {
-        //
+        $rules = [
+            'data_manutencao' => 'required',
+        ];
+        $feedback = [
+            'required' => 'o campo :attribute é obrigatório',
+        ];
+        $request->validate($rules, $feedback);
+        $manutencao = $this->model->find($id);
+        $manutencao->fill($request->all());
+        $manutencao->save();
+        return redirect('/home')->with('success', 'Agendamento Atualizado com sucesso!');
     }
 
     /**
@@ -127,8 +139,11 @@ class ManutencaoController extends Controller
      * @param  \App\Models\Manutencao  $manutencao
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Manutencao $manutencao)
+    public function destroy($id)
     {
-        //
+        $manutencao = $this->model->find($id);
+        $manutencao->delete();
+        return redirect('/home')->with('success', 'Agendamento removido com sucesso!');
+
     }
 }

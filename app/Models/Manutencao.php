@@ -9,6 +9,7 @@ class Manutencao extends Model
 {
     use HasFactory;
     protected $table='manutencoes';
+    protected $fillable = ['user_id','carro_id','data_manutencao'];
 
     public function carro()
     {

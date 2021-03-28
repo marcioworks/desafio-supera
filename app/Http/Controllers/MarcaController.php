@@ -55,7 +55,7 @@ class MarcaController extends Controller
         $marca = new Marca();
         $marca->nome = $request->nome;
         $marca->save();
-        return redirect('/home')->with('success', 'Post created successfully!');
+        return redirect('/home')->with('success',  'Marca criada com sucesso!');
     }
 
     /**

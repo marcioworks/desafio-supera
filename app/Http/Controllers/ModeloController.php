@@ -68,7 +68,7 @@ class ModeloController extends Controller
         $modelo->abs = $request->abs;
         // dd($request->all());
         $modelo->save();
-        return redirect('/home')->with('success', 'Post created successfully!');
+        return redirect('/home')->with('success',  'Modelo criado com sucesso!');
     }
 
     /**

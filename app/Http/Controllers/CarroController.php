@@ -74,7 +74,7 @@ class CarroController extends Controller
         $carro->km = $request->km;
         // dd($request->all());
         $carro->save();
-        return redirect('/home')->with('success', 'Post created successfully!');
+        return redirect('/home')->with('success', 'Carro criado com sucesso!');
     }
 
     /**
