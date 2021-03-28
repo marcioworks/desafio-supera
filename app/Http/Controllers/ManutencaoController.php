@@ -23,6 +23,12 @@ class ManutencaoController extends Controller
      */
     public function index(Request $request)
     {
+
+        $user = Auth::user();
+        if($user == null){
+            return redirect('/');
+        }
+
         $dataLimite = Carbon::today();
         $dataLimite->addDays(7);
         $manutencoes = $this->model->with(['carro', 'carro.modelo'])->where('data_manutencao', '<=', $dataLimite)->get();
@@ -38,6 +44,12 @@ class ManutencaoController extends Controller
      */
     public function agendar()
     {
+
+        $user = Auth::user();
+        if($user == null){
+            return redirect('/');
+        }
+
         $carros = new Carro();
         $user = Auth::user()->id;
         // dd($user);
@@ -78,9 +90,12 @@ class ManutencaoController extends Controller
      * @param  \App\Models\Manutencao  $manutencao
      * @return \Illuminate\Http\Response
      */
-    public function show(Manutencao $manutencao)
+    public function show($id)
     {
-        //
+        $manutencao = $this->model->with(['carro', 'carro.modelo'])->where('id','=',$id)->get();
+        // dd($manutencao);
+        return view('manutencao.show', compact('manutencao'));
+        // return response()->json($manutencao);
     }
 
     /**

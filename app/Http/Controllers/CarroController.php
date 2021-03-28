@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Carro;
 use App\Models\Modelo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPSTORM_META\map;
 
@@ -22,6 +23,10 @@ class CarroController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        if($user == null){
+            return redirect('/');
+        }
         $modelos = new  Modelo();
         $modelos = $modelos->with('marca')->get();
         return view('carro.create',compact('modelos'));

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MarcaController extends Controller
 {
@@ -19,6 +20,10 @@ class MarcaController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        if($user == null){
+            return redirect('/');
+        }
         return view('marca.create');
     }
 

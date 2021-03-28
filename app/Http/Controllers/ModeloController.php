@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modelo;
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ModeloController extends Controller
 {
@@ -19,6 +20,12 @@ class ModeloController extends Controller
      */
     public function index()
     {
+
+        $user = Auth::user();
+        if($user == null){
+            return redirect('/');
+        }
+
         $marcas = Marca::all();
         // $modelos = $modelos->with('marca')->get();
         return view('modelo.create', compact('marcas'));
